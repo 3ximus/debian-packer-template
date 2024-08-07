@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$post_up_message = <<MSG
+
+                 _ \\                _ \\
+                |   |   __|   __|  |   |   __|  __|
+                |   |  |     |     |   |  |   \\__ \\
+               \\___/  _|    _|    \\___/  _|   ____/
+
+                                         debian-11
+
+MSG
+
+Vagrant.configure(2) do |config|
+  config.vm.provider 'libvirt' do |lv|
+    lv.graphics_type  = "spice"
+    lv.nic_model_type = "virtio"
+    lv.sound_type     = "ich6"
+    lv.video_type     = "qxl"
+    lv.disk_bus       = 'virtio'
+
+    lv.channel :type  => 'spicevmc', :target_name => 'com.redhat.spice.0',     :target_type => 'virtio'
+    lv.channel :type  => 'unix',     :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
+    lv.random  :model => 'random'
+
+    lv.loader = "/usr/share/ovmf/OVMF.fd"
+  end
+
+  config.vm.post_up_message = $post_up_message
+end
