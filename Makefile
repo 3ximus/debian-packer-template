@@ -1,9 +1,12 @@
 SHELL=bash
 .SHELLFLAGS=-euo pipefail -c
 
-VERSION=10.5.0
+VERSION=12.6.0
 
-debian-${VERSION}-amd64.box: clean preseed.cfg provision/guest-additions.sh provision/final.sh provision/custom.sh debian.pkr.hcl Vagrantfile.template
+debian-${VERSION}-amd64-libvirt.box: clean preseed.cfg debian.pkr.hcl Vagrantfile.template \
+				provision/00-custom.sh \
+				provision/98-vagrant.sh \
+				provision/99-cleanup.sh
 	rm -f $@
 	CHECKPOINT_DISABLE=1 \
 	PACKER_LOG=1 \
@@ -20,6 +23,4 @@ debian-${VERSION}-amd64.box: clean preseed.cfg provision/guest-additions.sh prov
 	rmdir packer_cache
 
 clean:
-	rm -rf ./output-debian-amd64 ./packer_cache
-
-.PHONY: help buid-libvirt
+	rm -rf debian-${VERSION}-amd64-libvirt.box* ./output-debian-amd64 ./packer_cache

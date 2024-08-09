@@ -1,6 +1,5 @@
 packer {
   required_plugins {
-    # see https://github.com/hashicorp/packer-plugin-qemu
     qemu = {
       version = "1.1.0"
       source  = "github.com/hashicorp/qemu"
@@ -19,17 +18,17 @@ variable "vagrant_box" {
 source "qemu" "debian-amd64" {
   accelerator       = "kvm"
   machine_type      = "q35"
-  efi_boot          = true
-  cpus              = 4
-  memory            = 4 * 1024
-  qemuargs          = [["-cpu", "host"]]
-  headless          = false
+  qemu_binary       = "qemu-system-x86_64"
+  qemuargs          = [["-bios", "OVMF.fd"]]
+  cpus              = 2
+  memory            = 2 * 1024
+  headless          = true
   net_device        = "virtio-net"
   format            = "qcow2"
-  disk_size         = 20 * 1024
+  disk_size         = 10 * 1024
   disk_interface    = "virtio-scsi"
-  disk_cache        = "unsafe"
-  disk_discard      = "unmap"
+  disk_cache        = "writeback"
+  disk_discard      = "ignore"
   disk_compression  = true
   iso_url           = "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso"
   iso_checksum      = "file:https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS"
@@ -37,7 +36,7 @@ source "qemu" "debian-amd64" {
   ssh_username      = "vagrant"
   ssh_password      = "vagrant"
   ssh_timeout       = "60m"
-  boot_wait         = "5s"
+  boot_wait         = "3s"
   boot_command      = [
     "c<wait>",
     "linux /install.amd/vmlinuz",
@@ -45,6 +44,8 @@ source "qemu" "debian-amd64" {
     " priority=critical",
     " hostname=vagrant",
     " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+    " vga=788 noprompt quiet --<enter>",
+    " interface=auto",
     " BOOT_DEBUG=2",
     " DEBCONF_DEBUG=5",
     "<enter><wait>",
@@ -53,9 +54,7 @@ source "qemu" "debian-amd64" {
     "boot",
     "<enter><wait>",
   ]
-  shutdown_command  = "echo vagrant | sudo -S poweroff"
-  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
-  efi_firmware_vars = "/usr/share/OVMF/OVMF_VARS_4M.fd"
+  shutdown_command  = "echo vagrant | sudo -E -S poweroff"
 }
 
 build {
@@ -65,9 +64,9 @@ build {
     expect_disconnect = true
     execute_command   = "echo vagrant | sudo -S {{ .Vars }} bash {{ .Path }}"
     scripts = [
-      # "provision/guest-additions.sh",
-      "provision/custom.sh",
-      "provision/final.sh"
+      # "provision/00-custom.sh",
+      "provision/98-vagrant.sh",
+      "provision/99-cleanup.sh"
     ]
   }
 
