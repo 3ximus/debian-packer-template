@@ -5,6 +5,8 @@ VERSION=12.6.0
 
 debian-${VERSION}-amd64-libvirt.box: clean preseed.cfg debian.pkr.hcl Vagrantfile.template \
 				provision/00-custom.sh \
+				provision/01-desktop.sh \
+				provision/97-guest-additions.sh \
 				provision/98-vagrant.sh \
 				provision/99-cleanup.sh
 	rm -f $@

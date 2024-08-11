@@ -9,9 +9,7 @@ usermod --lock root
 sed -i -E 's,^%sudo\s+.+,%sudo ALL=(ALL) NOPASSWD:ALL,g' /etc/sudoers
 
 # install the wget dependency.
-export DEBIAN_FRONTEND="noninteractive"
-
-apt-get install -y wget qemu-guest-agent spice-vdagent
+DEBIAN_FRONTEND=noninteractive apt-get install -y wget network-manager
 
 # install the vagrant public key.
 #    vagrant will replace it on the first run.
@@ -26,4 +24,3 @@ popd
 # trying to resolve the client IP address into a DNS domain name, which
 # is kinda slow and does not normally work when running inside VB.
 echo UseDNS no >>/etc/ssh/sshd_config
-

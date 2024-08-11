@@ -22,7 +22,7 @@ source "qemu" "debian-amd64" {
   qemuargs          = [["-bios", "OVMF.fd"]]
   cpus              = 2
   memory            = 2 * 1024
-  headless          = true
+  headless          = false
   net_device        = "virtio-net"
   format            = "qcow2"
   disk_size         = 10 * 1024
@@ -64,7 +64,9 @@ build {
     expect_disconnect = true
     execute_command   = "echo vagrant | sudo -S {{ .Vars }} bash {{ .Path }}"
     scripts = [
-      # "provision/00-custom.sh",
+      "provision/00-custom.sh",
+      "provision/01-desktop.sh",
+      "provision/97-guest-additions.sh",
       "provision/98-vagrant.sh",
       "provision/99-cleanup.sh"
     ]
