@@ -22,7 +22,7 @@ source "qemu" "debian-amd64" {
   qemuargs          = [["-bios", "OVMF.fd"]]
   cpus              = 2
   memory            = 2 * 1024
-  headless          = false
+  headless          = true
   net_device        = "virtio-net"
   format            = "qcow2"
   disk_size         = 10 * 1024

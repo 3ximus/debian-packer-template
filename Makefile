@@ -9,7 +9,6 @@ debian-${VERSION}-amd64-libvirt.box: clean preseed.cfg debian.pkr.hcl Vagrantfil
 				provision/97-guest-additions.sh \
 				provision/98-vagrant.sh \
 				provision/99-cleanup.sh
-	rm -f $@
 	CHECKPOINT_DISABLE=1 \
 	PACKER_LOG=1 \
 	PACKER_LOG_PATH=$@.init.log \

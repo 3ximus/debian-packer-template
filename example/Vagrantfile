@@ -2,11 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "debian-custom"
+  config.vm.box = "3ximus/debian-xfce"
   config.vm.define "debian-custom"
 
   config.vm.provider 'libvirt' do |libvirt|
-    libvirt.memorybacking :access, :mode => "shared"
+    # your libvirt settings
   end
 
   config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
