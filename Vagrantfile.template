@@ -14,6 +14,7 @@ MSG
 
 Vagrant.configure(2) do |config|
   config.vm.provider 'libvirt' do |lv|
+    lv.memorybacking :access, :mode => "shared"
     lv.graphics_type  = "spice"
     lv.nic_model_type = "virtio"
     lv.sound_type     = "ich6"
