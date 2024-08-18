@@ -2,9 +2,7 @@
 # vi: set ft=ruby :
 
 $post_up_message = <<MSG
-
-         debian-12 + xfce4
-
+      debian-12 + xfce4
 MSG
 
 Vagrant.configure(2) do |config|
