@@ -11,6 +11,8 @@ hide-user-image=true
 background=#1F3C6D
 EOF
 
+sed 's/#\?greeter-hide-users=.*/greeter-hide-users=false/' -i /etc/lightdm/lightdm.conf
+
 # set user dirs
 cat <<EOF >/etc/xdg/user-dirs.defaults
 DESKTOP=desk
