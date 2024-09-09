@@ -31,7 +31,7 @@ source "qemu" "debian-amd64" {
   disk_cache        = "writeback"
   disk_discard      = "ignore"
   disk_compression  = true
-  iso_url           = "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso"
+  iso_url           = "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso"
   iso_checksum      = "file:https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS"
   http_directory    = "."
   ssh_username      = "vagrant"

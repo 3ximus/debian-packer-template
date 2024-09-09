@@ -8,6 +8,9 @@ usermod --lock root
 #   d-i automatically adds vagrant into the sudo group.
 sed -i -E 's,^%sudo\s+.+,%sudo ALL=(ALL) NOPASSWD:ALL,g' /etc/sudoers
 
+# change default Vagrant user name
+sed -i 's/Vagrant Default User/Vagrant/' /etc/passwd
+
 # install the wget dependency.
 DEBIAN_FRONTEND=noninteractive apt-get install -y wget network-manager
 
