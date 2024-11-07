@@ -15,6 +15,16 @@ variable "vagrant_box" {
   type = string
 }
 
+variable "hcp_client_id" {
+  type    = string
+  default = "${env("HCP_CLIENT_ID")}"
+}
+
+variable "hcp_client_secret" {
+  type    = string
+  default = "${env("HCP_CLIENT_SECRET")}"
+}
+
 source "qemu" "debian-amd64" {
   accelerator       = "kvm"
   machine_type      = "q35"
@@ -31,7 +41,7 @@ source "qemu" "debian-amd64" {
   disk_cache        = "writeback"
   disk_discard      = "ignore"
   disk_compression  = true
-  iso_url           = "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso"
+  iso_url           = "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-${var.version}-amd64-netinst.iso"
   iso_checksum      = "file:https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS"
   http_directory    = "."
   ssh_username      = "vagrant"
@@ -75,9 +85,20 @@ build {
     ]
   }
 
-  post-processor "vagrant" {
-    only = [ "qemu.debian-amd64", ]
-    output               = var.vagrant_box
-    vagrantfile_template = "Vagrantfile.template"
+  post-processors {
+    post-processor "vagrant" {
+      only                 = [ "qemu.debian-amd64", ]
+      output               = var.vagrant_box
+      vagrantfile_template = "Vagrantfile.template"
+    }
+
+    post-processor "vagrant-registry" {
+      box_tag             = "3ximus/debian-xfce"
+      version             = "${var.version}"
+      client_id           = "${var.hcp_client_id}"
+      client_secret       = "${var.hcp_client_secret}"
+      architecture        = "amd64"
+      version_description = "Light weight debian ${var.version} + xfce4 box https://github.com/3ximus/debian-packer-template"
+    }
   }
 }

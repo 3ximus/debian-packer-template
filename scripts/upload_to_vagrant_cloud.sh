@@ -27,7 +27,7 @@ if [[ $version_status == 'null' ]]; then
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
     https://app.vagrantup.com/api/v2/box/${VAGRANT_CLOUD_USER}/${NAME}/versions \
-    --data "{ \"version\": { \"version\": \"${BOX_VERSION}\", \"description\": \"$(./scripts/describe_packages.sh)\" } }"
+    --data "{ \"version\": { \"version\": \"${BOX_VERSION}\", \"description\": \"Light weigh debian ${BOX_VERSION} xfce4 box https://github.com/3ximus/debian-packer-template\" } }"
 fi
 
 BOX_CHECKSUM=$(sha256sum "${VAGRANT_BOX_FILE}" | cut -d ' ' -f 1)
