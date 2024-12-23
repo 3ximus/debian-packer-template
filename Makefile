@@ -1,7 +1,7 @@
 SHELL=bash
 .SHELLFLAGS=-euo pipefail -c
 
-VERSION=12.7.0
+VERSION=12.8.0
 
 debian-${VERSION}-amd64-libvirt.box: clean preseed.cfg debian.pkr.hcl Vagrantfile.template \
 				provision/00-custom.sh \

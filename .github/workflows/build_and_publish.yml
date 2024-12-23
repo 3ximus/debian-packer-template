@@ -33,10 +33,11 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
           sudo usermod -a -G kvm,libvirt $USER
+          packer plugins install github.com/hashicorp/vagrant
       - name: Build/Upload box
         run: |
-          packer plugins install github.com/hashicorp/vagrant
-          make || cat debian-12.6.0-amd64-libvirt.box.log
+          make
+          [ $? -gt 0 ] && cat debian-12.6.0-amd64-libvirt.box.log && exit 1 || echo DONE
       # - name: Upload to vagrant cloud
       #   run: |
       #     ./scripts/upload_to_vagrant_cloud.sh $VAGRANT_CLOUD_USER $NAME debian-*-amd64-libvirt.box

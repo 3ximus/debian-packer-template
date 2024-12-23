@@ -7,6 +7,6 @@ DEBIAN_FRONTEND=noninteractive sudo NEEDRESTART_MODE=a apt install -qq -y --no-i
 sudo update-alternatives --set vim /usr/bin/nvim
 
 # install bottom
-curl -sOL https://github.com/ClementTsang/bottom/releases/download/0.9.6/bottom_0.9.6_amd64.deb --output-dir /tmp
-sudo dpkg -i /tmp/bottom_0.9.6_amd64.deb
-rm /tmp/bottom_0.9.6_amd64.deb
+curl -sOL https://github.com/ClementTsang/bottom/releases/download/0.10.2/bottom_0.10.2-1_amd64.deb --output-dir /tmp
+sudo dpkg -i /tmp/bottom_0.10.2-1_amd64.deb
+rm /tmp/bottom_0.10.2-1_amd64.deb
